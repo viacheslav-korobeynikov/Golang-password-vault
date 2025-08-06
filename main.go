@@ -9,32 +9,27 @@ type account struct {
 }
 
 func main() {
-	login := inputData("Введите логин: ")
-	password := inputData("Введите пароль: ")
-	url := inputData("Введите URL: ")
+	login := inputData("Введите логин")
+	password := inputData("Введите пароль")
+	url := inputData("Введите URL")
 
-	account1 := account{
-		login,
-		password,
-		url,
-	}
-	account2 := account{
+	myAccount := account{
 		login:    login,
 		password: password,
 		url:      url,
 	}
 
-	outputPassword(login, password, url)
+	outputPassword(myAccount)
 
 }
 
 func inputData(a string) string {
-	fmt.Println(a)
+	fmt.Print(a + ": ")
 	var res string
 	fmt.Scan(&res)
 	return res
 }
 
-func outputPassword(login string, password string, url string) {
-	fmt.Println(login, password, url)
+func outputPassword(acc account) {
+	fmt.Println(acc.login, acc.password, acc.url)
 }
