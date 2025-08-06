@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand/v2"
+)
 
 type account struct {
 	login    string
@@ -8,7 +11,18 @@ type account struct {
 	url      string
 }
 
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+
 func main() {
+	fmt.Println(generatePassword(12))
+
+	//fmt.Println(rand.Int32N(10))
+
+	//str := []rune("Привет!)")
+	//for _, ch := range string(str) {
+	//	fmt.Println(ch, string(ch))
+	//}
+
 	login := inputData("Введите логин")
 	password := inputData("Введите пароль")
 	url := inputData("Введите URL")
@@ -19,7 +33,7 @@ func main() {
 		url:      url,
 	}
 
-	outputPassword(myAccount)
+	outputPassword(&myAccount)
 
 }
 
@@ -30,6 +44,17 @@ func inputData(a string) string {
 	return res
 }
 
-func outputPassword(acc account) {
+func outputPassword(acc *account) {
 	fmt.Println(acc.login, acc.password, acc.url)
+}
+
+// Функция принимает на вход количество символов в пароле и возвращает пароль
+// Массив допустимых значений
+
+func generatePassword(n int) string {
+	res := make([]rune, n)
+	for i := range res {
+		res[i] = letterRunes[rand.IntN(len(letterRunes))]
+	}
+	return string(res)
 }
