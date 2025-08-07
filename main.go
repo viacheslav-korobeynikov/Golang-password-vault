@@ -15,28 +15,26 @@ func (acc account) outputPassword() {
 	fmt.Println(acc.login, acc.password, acc.url)
 }
 
+func (acc *account) generatePassword(n int) {
+	res := make([]rune, n)
+	for i := range res {
+		res[i] = letterRunes[rand.IntN(len(letterRunes))]
+	}
+	acc.password = string(res)
+}
+
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
 
 func main() {
-	fmt.Println(generatePassword(12))
-
-	//fmt.Println(rand.Int32N(10))
-
-	//str := []rune("Привет!)")
-	//for _, ch := range string(str) {
-	//	fmt.Println(ch, string(ch))
-	//}
 
 	login := inputData("Введите логин")
-	password := inputData("Введите пароль")
 	url := inputData("Введите URL")
 
 	myAccount := account{
-		login:    login,
-		password: password,
-		url:      url,
+		login: login,
+		url:   url,
 	}
-
+	myAccount.generatePassword(12)
 	myAccount.outputPassword()
 
 }
@@ -46,15 +44,4 @@ func inputData(a string) string {
 	var res string
 	fmt.Scan(&res)
 	return res
-}
-
-// Функция принимает на вход количество символов в пароле и возвращает пароль
-// Массив допустимых значений
-
-func generatePassword(n int) string {
-	res := make([]rune, n)
-	for i := range res {
-		res[i] = letterRunes[rand.IntN(len(letterRunes))]
-	}
-	return string(res)
 }
