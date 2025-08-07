@@ -11,6 +11,10 @@ type account struct {
 	url      string
 }
 
+func (acc account) outputPassword() {
+	fmt.Println(acc.login, acc.password, acc.url)
+}
+
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
 
 func main() {
@@ -33,7 +37,7 @@ func main() {
 		url:      url,
 	}
 
-	outputPassword(&myAccount)
+	myAccount.outputPassword()
 
 }
 
@@ -42,10 +46,6 @@ func inputData(a string) string {
 	var res string
 	fmt.Scan(&res)
 	return res
-}
-
-func outputPassword(acc *account) {
-	fmt.Println(acc.login, acc.password, acc.url)
 }
 
 // Функция принимает на вход количество символов в пароле и возвращает пароль
