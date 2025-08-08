@@ -2,7 +2,7 @@ package account
 
 import (
 	"errors"
-	"fmt"
+	"github.com/fatih/color"
 	"math/rand/v2"
 	"net/url"
 	"time"
@@ -25,7 +25,9 @@ type AccountWithTimestamp struct {
 
 // Метод структуры
 func (acc AccountWithTimestamp) OutputPassword() {
-	fmt.Println(acc.login, acc.password, acc.url, acc.createdAt, acc.updatedAt)
+	color.Cyan(acc.login)
+	color.Magenta(acc.password)
+	color.Blue(acc.url)
 }
 
 // Метод структуры
