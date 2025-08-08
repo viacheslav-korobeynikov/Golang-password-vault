@@ -15,19 +15,15 @@ var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12
 
 // Объявление структуры
 type Account struct {
-	login    string `json:"login" xml: "test"`
-	password string
-	url      string
-}
-
-type AccountWithTimestamp struct {
-	Account
+	login     string `json:"login" xml: "test"`
+	password  string
+	url       string
 	createdAt time.Time
 	updatedAt time.Time
 }
 
 // Метод структуры
-func (acc AccountWithTimestamp) OutputPassword() {
+func (acc Account) OutputPassword() {
 	color.Cyan(acc.login)
 	color.Magenta(acc.password)
 	color.Blue(acc.url)
@@ -42,7 +38,7 @@ func (acc *Account) generatePassword(n int) {
 	acc.password = string(res)
 }
 
-func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTimestamp, error) {
+func NewAccount(login, password, urlString string) (*Account, error) {
 
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
@@ -54,17 +50,16 @@ func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTim
 		return nil, errors.New("INVALID_URL")
 	}
 
-	newAcc := &AccountWithTimestamp{
-		Account: Account{
-			url:      urlString,
-			login:    login,
-			password: password,
-		},
+	newAcc := &Account{
+		url:       urlString,
+		login:     login,
+		password:  password,
 		createdAt: time.Now(),
 		updatedAt: time.Now(),
 	}
-	field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
-	fmt.Println(string(field.Tag))
+
+	//field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
+	//fmt.Println(string(field.Tag))
 	if password == "" {
 		newAcc.generatePassword(12)
 	}
