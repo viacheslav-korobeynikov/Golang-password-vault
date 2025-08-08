@@ -1,6 +1,7 @@
 package account
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
@@ -15,18 +16,18 @@ var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12
 
 // Объявление структуры
 type Account struct {
-	login     string `json:"login" xml: "test"`
-	password  string
-	url       string
-	createdAt time.Time
-	updatedAt time.Time
+	Login     string    `json:"login"`
+	Password  string    `json:"password"`
+	Url       string    `json:"url"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // Метод структуры
 func (acc Account) OutputPassword() {
-	color.Cyan(acc.login)
-	color.Magenta(acc.password)
-	color.Blue(acc.url)
+	color.Cyan(acc.Login)
+	color.Magenta(acc.Password)
+	color.Blue(acc.Url)
 }
 
 // Метод структуры
@@ -35,7 +36,15 @@ func (acc *Account) generatePassword(n int) {
 	for i := range res {
 		res[i] = letterRunes[rand.IntN(len(letterRunes))]
 	}
-	acc.password = string(res)
+	acc.Password = string(res)
+}
+
+func (acc *Account) ToByte() ([]byte, error) {
+	file, err := json.Marshal(acc)
+	if err != nil {
+		return nil, err
+	}
+	return file, nil
 }
 
 func NewAccount(login, password, urlString string) (*Account, error) {
@@ -51,11 +60,11 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 	}
 
 	newAcc := &Account{
-		url:       urlString,
-		login:     login,
-		password:  password,
-		createdAt: time.Now(),
-		updatedAt: time.Now(),
+		Url:       urlString,
+		Login:     login,
+		Password:  password,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
 	//field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
