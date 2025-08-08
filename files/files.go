@@ -15,12 +15,12 @@ func ReadFile() {
 	fmt.Println(string(data))
 }
 
-func WriteFile(content string, fileName string) {
+func WriteFile(content []byte, fileName string) {
 	file, err := os.Create(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
-	_, err = file.WriteString(content)
+	_, err = file.Write(content)
 	defer file.Close()
 	if err != nil {
 		fmt.Println(err)
