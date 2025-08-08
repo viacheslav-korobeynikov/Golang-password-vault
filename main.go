@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/account"
+	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
 )
 
 func main() {
-
+	files.WriteFile("Hello, world!", "file.txt")
 	login := inputData("Введите логин")
 	password := inputData("Введите пароль")
 	url := inputData("Введите URL")
@@ -18,6 +20,7 @@ func main() {
 	}
 
 	myAccount.OutputPassword()
+	fmt.Println(myAccount)
 
 }
 
