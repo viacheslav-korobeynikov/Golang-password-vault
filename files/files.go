@@ -6,7 +6,13 @@ import (
 )
 
 func ReadFile() {
-
+	//file, err := os.Open("file.txt") - чтение файла по байтам
+	data, err := os.ReadFile("file.txt")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(data))
 }
 
 func WriteFile(content string, fileName string) {
