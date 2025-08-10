@@ -2,9 +2,11 @@ package account
 
 import (
 	"encoding/json"
+	"strings"
+	"time"
+
 	"github.com/fatih/color"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
-	"time"
 )
 
 type Vault struct {
@@ -30,6 +32,17 @@ func NewVault() *Vault {
 		}
 	}
 	return &vault
+}
+
+func (vault *Vault) FindAccountsByUrls(url string) []Account {
+	var accounts []Account
+	for _, account := range vault.Accounts {
+		isMatched := strings.Contains(account.Url, url)
+		if isMatched {
+			accounts = append(accounts, account)
+		}
+	}
+	return accounts
 }
 
 func (vault *Vault) AddAccount(acc Account) {

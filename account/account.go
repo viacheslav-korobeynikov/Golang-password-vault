@@ -21,10 +21,10 @@ type Account struct {
 }
 
 // Метод структуры
-func (acc Account) OutputPassword() {
+func (acc Account) Output() {
 	color.Cyan(acc.Login)
-	color.Magenta(acc.Password)
-	color.Blue(acc.Url)
+	color.Cyan(acc.Password)
+	color.Cyan(acc.Url)
 }
 
 // Метод структуры
