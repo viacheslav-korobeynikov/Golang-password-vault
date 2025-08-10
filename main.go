@@ -16,8 +16,6 @@ import (
 */
 
 func main() {
-	//files.ReadFile()
-	//files.WriteFile("Hello, world!", "file.txt")
 	fmt.Println("_Менеджер паролей_")
 Menu:
 	for {
@@ -43,15 +41,18 @@ func createAccount() {
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Неверный логин или URL")
 		return
 	}
-	file, err := myAccount.ToByte()
+
+	vault := account.NewVault()
+	vault.AddAccount(*myAccount)
+	data, err := vault.ToByte()
 	if err != nil {
 		fmt.Println("Не удалось преобразовать данные в JSON")
 		return
 	}
-	files.WriteFile(file, "data.json")
+	files.WriteFile(data, "data.json")
 }
 
 func inputData(a string) string {
@@ -63,13 +64,11 @@ func inputData(a string) string {
 
 func showMenu() int {
 	var userChoice int
-
-	fmt.Println("Выберите нужный пункт меню: ")
 	fmt.Println("1. Создать аккаунт")
 	fmt.Println("2. Найти аккаунт")
 	fmt.Println("3. Удалить аккаунт")
 	fmt.Println("4. Выход")
-	fmt.Scan(&userChoice)
+	fmt.Scanln(&userChoice)
 	return userChoice
 }
 

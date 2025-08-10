@@ -1,7 +1,6 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
 	"math/rand/v2"
 	"net/url"
@@ -37,14 +36,6 @@ func (acc *Account) generatePassword(n int) {
 	acc.Password = string(res)
 }
 
-func (acc *Account) ToByte() ([]byte, error) {
-	file, err := json.Marshal(acc)
-	if err != nil {
-		return nil, err
-	}
-	return file, nil
-}
-
 func NewAccount(login, password, urlString string) (*Account, error) {
 
 	if login == "" {
@@ -64,11 +55,12 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
-
-	//field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
-	//fmt.Println(string(field.Tag))
 	if password == "" {
 		newAcc.generatePassword(12)
 	}
 	return newAcc, nil
+
+	//field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
+	//fmt.Println(string(field.Tag))
+
 }
