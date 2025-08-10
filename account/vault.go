@@ -57,23 +57,13 @@ func (vault *Vault) DeleteAccountsByUrls(url string) bool {
 		isDeleted = true
 	}
 	vault.Accounts = accounts
-	vault.UpdatedAt = time.Now()
-	data, err := vault.ToByte()
-	if err != nil {
-		color.Red("Не удалось преобразовать")
-	}
-	files.WriteFile(data, "data.json")
+	vault.saveVault()
 	return isDeleted
 }
 
 func (vault *Vault) AddAccount(acc Account) {
 	vault.Accounts = append(vault.Accounts, acc)
-	vault.UpdatedAt = time.Now()
-	data, err := vault.ToByte()
-	if err != nil {
-		color.Red("Не удалось преобразовать файл")
-	}
-	files.WriteFile(data, "data.json")
+	vault.saveVault()
 }
 
 func (vault *Vault) ToByte() ([]byte, error) {
@@ -82,4 +72,13 @@ func (vault *Vault) ToByte() ([]byte, error) {
 		return nil, err
 	}
 	return file, nil
+}
+
+func (vault *Vault) saveVault() {
+	vault.UpdatedAt = time.Now()
+	data, err := vault.ToByte()
+	if err != nil {
+		color.Red("Не удалось преобразовать")
+	}
+	files.WriteFile(data, "data.json")
 }
