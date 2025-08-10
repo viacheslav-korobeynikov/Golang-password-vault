@@ -2,6 +2,8 @@ package account
 
 import (
 	"encoding/json"
+	"github.com/fatih/color"
+	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
 	"time"
 )
 
@@ -11,15 +13,33 @@ type Vault struct {
 }
 
 func NewVault() *Vault {
-	return &Vault{
-		Accounts:  []Account{},
-		UpdatedAt: time.Now(),
+	file, err := files.ReadFile("data.json")
+	if err != nil {
+		return &Vault{
+			Accounts:  []Account{},
+			UpdatedAt: time.Now(),
+		}
 	}
+	var vault Vault
+	err = json.Unmarshal(file, &vault)
+	if err != nil {
+		color.Red("Не удалось разобрать файл")
+		return &Vault{
+			Accounts:  []Account{},
+			UpdatedAt: time.Now(),
+		}
+	}
+	return &vault
 }
 
 func (vault *Vault) AddAccount(acc Account) {
 	vault.Accounts = append(vault.Accounts, acc)
 	vault.UpdatedAt = time.Now()
+	data, err := vault.ToByte()
+	if err != nil {
+		color.Red("Не удалось преобразовать файл")
+	}
+	files.WriteFile(data, "data.json")
 }
 
 func (vault *Vault) ToByte() ([]byte, error) {

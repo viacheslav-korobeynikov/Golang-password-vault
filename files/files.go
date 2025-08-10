@@ -5,14 +5,13 @@ import (
 	"os"
 )
 
-func ReadFile() {
+func ReadFile(fileName string) ([]byte, error) {
 	//file, err := os.Open("file.txt") - чтение файла по байтам
-	data, err := os.ReadFile("file.txt")
+	data, err := os.ReadFile(fileName)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
-	fmt.Println(string(data))
+	return data, nil
 }
 
 func WriteFile(content []byte, fileName string) {

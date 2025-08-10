@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/account"
-	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
 )
 
 /*
@@ -47,12 +46,6 @@ func createAccount() {
 
 	vault := account.NewVault()
 	vault.AddAccount(*myAccount)
-	data, err := vault.ToByte()
-	if err != nil {
-		fmt.Println("Не удалось преобразовать данные в JSON")
-		return
-	}
-	files.WriteFile(data, "data.json")
 }
 
 func inputData(a string) string {
