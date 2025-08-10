@@ -27,7 +27,7 @@ Menu:
 		case 2:
 			findAccountByUrl(vault)
 		case 3:
-			deleteAccount()
+			deleteAccountByUrl(vault)
 		default:
 			break Menu
 		}
@@ -77,6 +77,12 @@ func findAccountByUrl(vault *account.Vault) {
 	}
 }
 
-func deleteAccount() {
-
+func deleteAccountByUrl(vault *account.Vault) {
+	url := inputData("Введите URL для поиска")
+	isDeleted := vault.DeleteAccountsByUrls(url)
+	if isDeleted {
+		color.Green("Удалено")
+	} else {
+		color.Red("Запись для удаления не найдена")
+	}
 }
