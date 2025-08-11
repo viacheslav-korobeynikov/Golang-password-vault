@@ -5,6 +5,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/account"
+	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
 )
 
 /*
@@ -17,7 +18,7 @@ import (
 
 func main() {
 	fmt.Println("_Менеджер паролей_")
-	vault := account.NewVault()
+	vault := account.NewVault(files.NewJsonDB("data.json"))
 Menu:
 	for {
 		userChoice := showMenu()
@@ -35,7 +36,7 @@ Menu:
 
 }
 
-func createAccount(vault *account.Vault) {
+func createAccount(vault *account.VaultWithDB) {
 	login := inputData("Введите логин")
 	password := inputData("Введите пароль")
 	url := inputData("Введите URL")
@@ -66,7 +67,7 @@ func showMenu() int {
 	return userChoice
 }
 
-func findAccountByUrl(vault *account.Vault) {
+func findAccountByUrl(vault *account.VaultWithDB) {
 	url := inputData("Введите URL для поиска")
 	accounts := vault.FindAccountsByUrls(url)
 	if len(accounts) == 0 {
@@ -77,7 +78,7 @@ func findAccountByUrl(vault *account.Vault) {
 	}
 }
 
-func deleteAccountByUrl(vault *account.Vault) {
+func deleteAccountByUrl(vault *account.VaultWithDB) {
 	url := inputData("Введите URL для поиска")
 	isDeleted := vault.DeleteAccountsByUrls(url)
 	if isDeleted {
