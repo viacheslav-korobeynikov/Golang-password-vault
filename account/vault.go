@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fatih/color"
+	"github.com/viacheslav-korobeynikov/Golang-password-vault/output"
 )
 
 type DB interface {
@@ -37,7 +37,7 @@ func NewVault(db DB) *VaultWithDB {
 	var vault Vault
 	err = json.Unmarshal(file, &vault)
 	if err != nil {
-		color.Red("Не удалось разобрать файл")
+		output.PrintError("Не удалось разобрать файл")
 		return &VaultWithDB{
 			Vault: Vault{
 				Accounts:  []Account{},
@@ -96,7 +96,7 @@ func (vault *VaultWithDB) saveVault() {
 	vault.UpdatedAt = time.Now()
 	data, err := vault.Vault.ToByte()
 	if err != nil {
-		color.Red("Не удалось преобразовать")
+		output.PrintError("Не удалось преобразовать")
 	}
 	vault.db.Write(data)
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/account"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
+	"github.com/viacheslav-korobeynikov/Golang-password-vault/output"
 )
 
 /*
@@ -71,7 +72,7 @@ func findAccountByUrl(vault *account.VaultWithDB) {
 	url := inputData("Введите URL для поиска")
 	accounts := vault.FindAccountsByUrls(url)
 	if len(accounts) == 0 {
-		color.Red("Аккаунтов не найдено")
+		output.PrintError("Аккаунтов не найдено")
 	}
 	for _, account := range accounts {
 		account.Output()
@@ -84,6 +85,6 @@ func deleteAccountByUrl(vault *account.VaultWithDB) {
 	if isDeleted {
 		color.Green("Удалено")
 	} else {
-		color.Red("Запись для удаления не найдена")
+		output.PrintError("Запись для удаления не найдена")
 	}
 }
