@@ -9,13 +9,11 @@ import (
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/output"
 )
 
-/*
-Меню:
-1. Создать аккаунт
-2. Найти аккаунт
-3. Удалить аккаунт
-4. Выход
-*/
+var menu = map[string]func(*account.VaultWithDB){
+	"1": createAccount,
+	"2": findAccountByUrl,
+	"3": deleteAccountByUrl,
+}
 
 func main() {
 	fmt.Println("_Менеджер паролей_")
@@ -29,16 +27,11 @@ Menu:
 			"4. Выход",
 			"Выберите нужный пункт меню",
 		})
-		switch userChoice {
-		case "1":
-			createAccount(vault)
-		case "2":
-			findAccountByUrl(vault)
-		case "3":
-			deleteAccountByUrl(vault)
-		default:
+		menuFunc := menu[userChoice]
+		if menuFunc == nil {
 			break Menu
 		}
+		menuFunc(vault)
 	}
 
 }
