@@ -1,9 +1,9 @@
 package files
 
 import (
-	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/output"
 )
 
@@ -37,5 +37,5 @@ func (db *JsonDB) Write(content []byte) {
 		output.PrintError(err)
 		return
 	}
-	fmt.Println("Запись завершена успешно")
+	color.Green("Запись завершена успешно")
 }
