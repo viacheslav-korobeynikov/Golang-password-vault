@@ -22,13 +22,19 @@ func main() {
 	vault := account.NewVault(files.NewJsonDB("data.json"))
 Menu:
 	for {
-		userChoice := showMenu()
+		userChoice := inputData([]string{
+			"1. Создать аккаунт",
+			"2. Найти аккаунт",
+			"3. Удалить аккаунт",
+			"4. Выход",
+			"Выберите нужный пункт меню",
+		})
 		switch userChoice {
-		case 1:
+		case "1":
 			createAccount(vault)
-		case 2:
+		case "2":
 			findAccountByUrl(vault)
-		case 3:
+		case "3":
 			deleteAccountByUrl(vault)
 		default:
 			break Menu
@@ -38,9 +44,9 @@ Menu:
 }
 
 func createAccount(vault *account.VaultWithDB) {
-	login := inputData("Введите логин")
-	password := inputData("Введите пароль")
-	url := inputData("Введите URL")
+	login := inputData([]string{"Введите логин"})
+	password := inputData([]string{"Введите пароль"})
+	url := inputData([]string{"Введите URL"})
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
@@ -51,25 +57,21 @@ func createAccount(vault *account.VaultWithDB) {
 	vault.AddAccount(*myAccount)
 }
 
-func inputData(a string) string {
-	fmt.Print(a + ": ")
+func inputData[T any](a []T) string {
+	for i, line := range a {
+		if i == len(a)-1 {
+			fmt.Printf("%v: ", line)
+		} else {
+			fmt.Println(line)
+		}
+	}
 	var res string
 	fmt.Scanln(&res)
 	return res
 }
 
-func showMenu() int {
-	var userChoice int
-	fmt.Println("1. Создать аккаунт")
-	fmt.Println("2. Найти аккаунт")
-	fmt.Println("3. Удалить аккаунт")
-	fmt.Println("4. Выход")
-	fmt.Scanln(&userChoice)
-	return userChoice
-}
-
 func findAccountByUrl(vault *account.VaultWithDB) {
-	url := inputData("Введите URL для поиска")
+	url := inputData([]string{"Введите URL для поиска"})
 	accounts := vault.FindAccountsByUrls(url)
 	if len(accounts) == 0 {
 		output.PrintError("Аккаунтов не найдено")
@@ -80,7 +82,7 @@ func findAccountByUrl(vault *account.VaultWithDB) {
 }
 
 func deleteAccountByUrl(vault *account.VaultWithDB) {
-	url := inputData("Введите URL для поиска")
+	url := inputData([]string{"Введите URL для поиска"})
 	isDeleted := vault.DeleteAccountsByUrls(url)
 	if isDeleted {
 		color.Green("Удалено")
