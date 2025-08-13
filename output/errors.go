@@ -30,3 +30,11 @@ func PrintError(value any) {
 	//	color.Red("Неизвестный тип ошибки")
 	//}
 }
+
+//func sum[T int | float32 | float64 | int16 | string](a, b T) T {
+//	return a + b
+//}
+//
+//type List[T any] struct {
+//	elements []T
+//}
