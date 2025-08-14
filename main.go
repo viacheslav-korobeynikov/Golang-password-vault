@@ -66,17 +66,15 @@ func inputData[T any](a []T) string {
 
 func findAccountByUrl(vault *account.VaultWithDB) {
 	url := inputData([]string{"Введите URL для поиска"})
-	accounts := vault.FindAccounts(url, checkUrl)
+	accounts := vault.FindAccounts(url, func(acc account.Account, str string) bool {
+		return strings.Contains(acc.Url, str)
+	})
 	if len(accounts) == 0 {
 		output.PrintError("Аккаунтов не найдено")
 	}
 	for _, account := range accounts {
 		account.Output()
 	}
-}
-
-func checkUrl(acc account.Account, str string) bool {
-	return strings.Contains(acc.Url, str)
 }
 
 func deleteAccountByUrl(vault *account.VaultWithDB) {
