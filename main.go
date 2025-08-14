@@ -12,8 +12,9 @@ import (
 
 var menu = map[string]func(*account.VaultWithDB){
 	"1": createAccount,
-	"2": findAccountByUrl,
-	"3": deleteAccountByUrl,
+	"2": findAccountByLogin,
+	"3": findAccountByUrl,
+	"4": deleteAccountByUrl,
 }
 
 func main() {
@@ -23,9 +24,10 @@ Menu:
 	for {
 		userChoice := inputData([]string{
 			"1. Создать аккаунт",
-			"2. Найти аккаунт",
-			"3. Удалить аккаунт",
-			"4. Выход",
+			"2. Найти аккаунт по логину",
+			"3. Найти аккаунт по URL",
+			"4. Удалить аккаунт",
+			"5. Выход",
 			"Выберите нужный пункт меню",
 		})
 		menuFunc := menu[userChoice]
@@ -69,10 +71,22 @@ func findAccountByUrl(vault *account.VaultWithDB) {
 	accounts := vault.FindAccounts(url, func(acc account.Account, str string) bool {
 		return strings.Contains(acc.Url, str)
 	})
-	if len(accounts) == 0 {
+	outputResult(&accounts)
+}
+
+func findAccountByLogin(vault *account.VaultWithDB) {
+	login := inputData([]string{"Введите логин для поиска"})
+	accounts := vault.FindAccounts(login, func(acc account.Account, str string) bool {
+		return strings.Contains(acc.Login, str)
+	})
+	outputResult(&accounts)
+}
+
+func outputResult(accounts *[]account.Account) {
+	if len(*accounts) == 0 {
 		output.PrintError("Аккаунтов не найдено")
 	}
-	for _, account := range accounts {
+	for _, account := range *accounts {
 		account.Output()
 	}
 }
