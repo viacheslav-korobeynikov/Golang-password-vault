@@ -7,6 +7,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/joho/godotenv"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/account"
+	"github.com/viacheslav-korobeynikov/Golang-password-vault/encrypter"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/output"
 )
@@ -33,7 +34,7 @@ func main() {
 	if err != nil {
 		output.PrintError("Не удалось загрузить env файл")
 	}
-	vault := account.NewVault(files.NewJsonDB("data.json"))
+	vault := account.NewVault(files.NewJsonDB("data.vault"), *encrypter.NewRncrypter())
 Menu:
 	for {
 		userChoice := inputData(menuVariants...)
