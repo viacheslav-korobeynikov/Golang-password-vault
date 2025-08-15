@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
+	"github.com/joho/godotenv"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/account"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/files"
 	"github.com/viacheslav-korobeynikov/Golang-password-vault/output"
@@ -28,6 +29,10 @@ var menuVariants = []string{
 
 func main() {
 	fmt.Println("_Менеджер паролей_")
+	err := godotenv.Load()
+	if err != nil {
+		output.PrintError("Не удалось загрузить env файл")
+	}
 	vault := account.NewVault(files.NewJsonDB("data.json"))
 Menu:
 	for {
